@@ -1,0 +1,6 @@
+@AbapCatalog.extensibility.extensible: true
+@ObjectModel.leadingEntity.name: 'ZINCC_Incidente02TPVTV'
+define service ZINCUI_Incidente02VTV {
+  expose ZINCC_INCIDENTE02TPVTV as Incidente;
+  expose ZINCC_HISTORIALTPVTV as Historial;
+}

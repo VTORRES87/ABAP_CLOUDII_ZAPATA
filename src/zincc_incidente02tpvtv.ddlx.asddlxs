@@ -1,0 +1,143 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'Incidente', 
+    typeNamePlural: 'Incidentes', 
+    title: {
+      type: #STANDARD, 
+      label: 'Incidente', 
+      value: 'IncidentID'
+    }
+  }, 
+  presentationVariant: [ {
+    sortOrder: [ {
+      by: 'IncidentID', 
+      direction: #DESC
+    } ], 
+    visualizations: [ {
+      type: #AS_LINEITEM
+    } ]
+  } ]
+}
+annotate view ZINCC_Incidente02TPVTV with
+{
+  @UI.facet: [ {
+    id: 'idCollection', 
+    type: #COLLECTION, 
+    label: 'Incidente', 
+    position: 10 
+  }, 
+  {
+    id: 'idIdentification', 
+    parentId: 'idCollection', 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'General Information', 
+    position: 20 
+  }, 
+  {
+    id: 'idHistorial', 
+    type: #LINEITEM_REFERENCE, 
+    label: 'Historial', 
+    position: 30 , 
+    targetElement: '_Historial'
+  } ]
+  @UI.hidden: true
+  IncUUID;
+  
+  @UI.lineItem: [ {
+    position: 20 , 
+    importance: #HIGH, 
+    label: 'IncidentID'
+  } ]
+  @UI.identification: [ {
+    position: 20 , 
+    label: 'IncidentID'
+  } ]
+  @UI.selectionField: [ {
+    position: 20 
+  } ]
+  IncidentID;
+  
+  @UI.lineItem: [ {
+    position: 30 , 
+    importance: #HIGH, 
+    label: 'Title'
+  } ]
+  @UI.identification: [ {
+    position: 30 , 
+    label: 'Title'
+  } ]
+  Title;
+  
+  @UI.lineItem: [ {
+    position: 40 , 
+    importance: #HIGH, 
+    label: 'Description'
+  } ]
+  @UI.identification: [ {
+    position: 40 , 
+    label: 'Description'
+  } ]
+  Description;
+  
+  @UI.lineItem: [ {
+    position: 50 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 50 
+  } ]
+  Status;
+  
+  @UI.lineItem: [ {
+    position: 60 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 60 
+  } ]
+  Priority;
+  
+  @UI.lineItem: [ {
+    position: 70 , 
+    importance: #HIGH, 
+    label: 'CreationDate'
+  } ]
+  @UI.identification: [ {
+    position: 70 , 
+    label: 'CreationDate'
+  } ]
+  CreationDate;
+  
+  @UI.lineItem: [ {
+    position: 80 , 
+    importance: #HIGH, 
+    label: 'ChangedDate'
+  } ]
+  @UI.identification: [ {
+    position: 80 , 
+    label: 'ChangedDate'
+  } ]
+  ChangedDate;
+  
+  @UI.hidden: true
+  LocalCreatedBy;
+  
+  @UI.hidden: true
+  LocalCreatedAt;
+  
+  @UI.lineItem: [ {
+    position: 110 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 110 
+  } ]
+  LocalLastChangedBy;
+  
+  @UI.hidden: true
+  LocalLastChangedAt;
+  
+  @UI.hidden: true
+  LastChangedAt;
+}

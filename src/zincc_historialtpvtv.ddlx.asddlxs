@@ -1,0 +1,119 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'Historial', 
+    typeNamePlural: 'Historials', 
+    title: {
+      type: #STANDARD, 
+      label: 'Historial', 
+      value: 'HisID'
+    }
+  }, 
+  presentationVariant: [ {
+    sortOrder: [ {
+      by: 'HisID', 
+      direction: #DESC
+    } ], 
+    visualizations: [ {
+      type: #AS_LINEITEM
+    } ]
+  } ]
+}
+annotate view ZINCC_HistorialTPVTV with
+{
+  @UI.facet: [ {
+    id: 'idHistorial', 
+    purpose: #STANDARD, 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'Historial', 
+    position: 10 
+  } ]
+  @UI.hidden: true
+  HisUUID;
+  
+  @UI.hidden: true
+  IncUUID;
+  
+  @UI.lineItem: [ {
+    position: 30 , 
+    importance: #HIGH, 
+    label: 'HisID'
+  } ]
+  @UI.identification: [ {
+    position: 30 , 
+    label: 'HisID'
+  } ]
+  HisID;
+  
+  @UI.lineItem: [ {
+    position: 40 , 
+    importance: #HIGH, 
+    label: 'PreviousStatus'
+  } ]
+  @UI.identification: [ {
+    position: 40 , 
+    label: 'PreviousStatus'
+  } ]
+  PreviousStatus;
+  
+  @UI.lineItem: [ {
+    position: 50 , 
+    importance: #HIGH, 
+    label: 'NewStatus'
+  } ]
+  @UI.identification: [ {
+    position: 50 , 
+    label: 'NewStatus'
+  } ]
+  NewStatus;
+  
+  @UI.lineItem: [ {
+    position: 60 , 
+    importance: #HIGH, 
+    label: 'Text'
+  } ]
+  @UI.identification: [ {
+    position: 60 , 
+    label: 'Text'
+  } ]
+  Text;
+  
+  @UI.lineItem: [ {
+    position: 70 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 70 
+  } ]
+  LocalCreatedBy;
+  
+  @UI.lineItem: [ {
+    position: 80 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 80 
+  } ]
+  LocalCreatedAt;
+  
+  @UI.lineItem: [ {
+    position: 90 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 90 
+  } ]
+  LocalLastChangedBy;
+  
+  @UI.hidden: true
+  LocalLastChangedAt;
+  
+  @UI.lineItem: [ {
+    position: 110 , 
+    importance: #HIGH
+  } ]
+  @UI.identification: [ {
+    position: 110 
+  } ]
+  LastChangeDat;
+}

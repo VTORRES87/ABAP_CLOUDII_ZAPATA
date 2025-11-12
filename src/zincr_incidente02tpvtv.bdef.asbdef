@@ -1,0 +1,107 @@
+managed;
+strict ( 2 );
+with draft;
+extensible
+{
+  with additional save;
+  with determinations on modify;
+  with determinations on save;
+  with validations on save;
+}
+define behavior for ZINCR_Incidente02TPVTV alias Incidente
+implementation in class ZINCBP_R_Incidente02TPVTV unique
+persistent table ZDT_INCT_VT
+extensible
+draft table ZINCINCIDE00DVTV
+query ZINCR_Incidente_DVTV
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+{
+  field ( readonly )
+   IncUUID,
+   IncidentID,
+   LocalCreatedBy,
+   LocalCreatedAt,
+   LocalLastChangedAt,
+   LastChangedAt;
+
+  field ( numbering : managed )
+   IncUUID;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare extensible;
+
+  mapping for ZDT_INCT_VT corresponding extensible
+  {
+    IncUUID = INC_UUID;
+    IncidentID = INCIDENT_ID;
+    Title = TITLE;
+    Description = DESCRIPTION;
+    Status = STATUS;
+    Priority = PRIORITY;
+    CreationDate = CREATION_DATE;
+    ChangedDate = CHANGED_DATE;
+    LocalCreatedBy = LOCAL_CREATED_BY;
+    LocalCreatedAt = LOCAL_CREATED_AT;
+    LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+    LastChangedAt = LAST_CHANGED_AT;
+  }
+
+  association _Historial { create; with draft; }
+
+  determination CalculateIncidentID on save { create; }
+
+}
+
+define behavior for ZINCR_HistorialTPVTV alias Historial
+implementation in class ZINCBP_R_HistorialTPVTV unique
+persistent table ZDT_INCT_H_VT
+extensible
+draft table ZINCHISTOR00DVTV
+etag master LocalLastChangedAt
+lock dependent by _Incidente
+authorization dependent by _Incidente
+{
+  field ( readonly )
+   HisUUID,
+   IncUUID,
+   HisID,
+   LocalLastChangedAt;
+
+  field ( numbering : managed )
+   HisUUID;
+
+
+  update;
+  delete;
+
+  mapping for ZDT_INCT_H_VT corresponding extensible
+  {
+    HisUUID = HIS_UUID;
+    IncUUID = INC_UUID;
+    HisID = HIS_ID;
+    PreviousStatus = PREVIOUS_STATUS;
+    NewStatus = NEW_STATUS;
+    Text = TEXT;
+    LocalCreatedBy = LOCAL_CREATED_BY;
+    LocalCreatedAt = LOCAL_CREATED_AT;
+    LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+    LastChangeDat = LAST_CHANGE_DAT;
+  }
+
+  association _Incidente { with draft; }
+
+  determination CalculateHisID on save { create; }
+
+}

@@ -1,0 +1,33 @@
+projection;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZINCC_Incidente02TPVTV alias Incidente
+extensible
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Historial { create; with draft; }
+
+}
+
+define behavior for ZINCC_HistorialTPVTV alias Historial
+extensible
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Incidente { with draft; }
+
+}
