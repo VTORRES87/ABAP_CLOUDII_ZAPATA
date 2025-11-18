@@ -26,6 +26,9 @@ authorization master( global )
    LocalLastChangedAt,
    LastChangedAt;
 
+//Agregar el * en los campos obligatorios
+   field ( mandatory )  Title, Description, Status, Priority;
+
   field ( numbering : managed )
    IncUUID;
 
@@ -39,6 +42,13 @@ authorization master( global )
   draft action Discard;
   draft action Resume;
   draft determine action Prepare extensible;
+
+
+//Validaciones que se realizan en el guardado
+  validation validateTitle on save { create; update; field Title;}
+  validation validateDescription on save { create; update; field Description;}
+  validation validateStatus on save { create; update; field Status;}
+  validation validatePriority on save { create; update; field Priority;}
 
   mapping for ZDT_INCT_VT corresponding extensible
   {

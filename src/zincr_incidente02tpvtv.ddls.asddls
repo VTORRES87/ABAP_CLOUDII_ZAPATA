@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #NOT_ALLOWED
 @Metadata.allowExtensions: true
 @EndUserText.label: 'CDS View forIncidente'
 @ObjectModel.sapObjectNodeType.name: 'ZINCIncidenteVTV'

@@ -80,6 +80,12 @@ annotate view ZINCC_Incidente02TPVTV with
   } ]
   Description;
   
+    @Consumption.valueHelpDefinition: [{ entity: { name : 'ZDD_status_vh_vt',
+                                                 element : 'status' },
+                                                 useForValidation: true
+                                                  }]
+  
+  
   @UI.lineItem: [ {
     position: 50 , 
     importance: #HIGH
@@ -88,6 +94,12 @@ annotate view ZINCC_Incidente02TPVTV with
     position: 50 
   } ]
   Status;
+    
+   @Consumption.valueHelpDefinition: [{ entity: { name : 'Zdd_priority_vh_vt',
+                                                 element : 'priority' },
+                                                 useForValidation: true
+                                                  }]
+
   
   @UI.lineItem: [ {
     position: 60 , 
@@ -96,6 +108,7 @@ annotate view ZINCC_Incidente02TPVTV with
   @UI.identification: [ {
     position: 60 
   } ]
+    
   Priority;
   
   @UI.lineItem: [ {
@@ -103,11 +116,14 @@ annotate view ZINCC_Incidente02TPVTV with
     importance: #HIGH, 
     label: 'CreationDate'
   } ]
+  
+  
   @UI.identification: [ {
     position: 70 , 
     label: 'CreationDate'
   } ]
-  CreationDate;
+  
+   CreationDate;
   
   @UI.lineItem: [ {
     position: 80 , 
@@ -118,6 +134,7 @@ annotate view ZINCC_Incidente02TPVTV with
     position: 80 , 
     label: 'ChangedDate'
   } ]
+  @UI.hidden: true
   ChangedDate;
   
   @UI.hidden: true
@@ -133,6 +150,7 @@ annotate view ZINCC_Incidente02TPVTV with
   @UI.identification: [ {
     position: 110 
   } ]
+  @UI.hidden: true
   LocalLastChangedBy;
   
   @UI.hidden: true

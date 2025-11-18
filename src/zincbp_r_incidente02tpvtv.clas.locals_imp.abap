@@ -7,7 +7,17 @@ CLASS LHC_INCIDENTE DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
         RESULT result,
       CALCULATEINCIDENTID FOR DETERMINE ON SAVE
         IMPORTING
-          KEYS FOR  Incidente~CalculateIncidentID .
+          KEYS FOR  Incidente~CalculateIncidentID ,
+      validateTitle FOR VALIDATE ON SAVE
+            IMPORTING keys FOR Incidente~validateTitle,
+      validateDescription FOR VALIDATE ON SAVE
+            IMPORTING keys FOR Incidente~validateDescription.
+
+          METHODS validatePriority FOR VALIDATE ON SAVE
+            IMPORTING keys FOR Incidente~validatePriority.
+
+          METHODS validateStatus FOR VALIDATE ON SAVE
+            IMPORTING keys FOR Incidente~validateStatus.
 ENDCLASS.
 
 CLASS LHC_INCIDENTE IMPLEMENTATION.
@@ -35,4 +45,97 @@ CLASS LHC_INCIDENTE IMPLEMENTATION.
         IncidentID     = max_object_id + i
   ) ).
   ENDMETHOD.
+  METHOD validateTitle.
+
+    READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+      ENTITY Incidente
+        FIELDS ( Title ) WITH CORRESPONDING #( keys )
+      RESULT DATA(incidentes).
+
+    LOOP AT Incidentes INTO DATA(Incidente).
+
+      IF Incidente-title IS INITIAL.
+
+        APPEND VALUE #( %tky = incidente-%tky ) TO failed-incidente.
+        APPEND VALUE #( %tky = incidente-%tky
+                        %msg = new zcl_incidentes_messages_vt( textid = zcl_incidentes_messages_vt=>title_unkown
+                                                            title = incidente-Title
+                                                            severity = if_abap_behv_message=>severity-error  )
+                                                            %element-Title = if_abap_behv=>mk-on ) TO reported-incidente.
+
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD validateDescription.
+
+      READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+      ENTITY Incidente
+        FIELDS ( Description ) WITH CORRESPONDING #( keys )
+      RESULT DATA(incidentes).
+
+    LOOP AT Incidentes INTO DATA(Incidente).
+
+      IF Incidente-Description IS INITIAL.
+
+        APPEND VALUE #( %tky = incidente-%tky ) TO failed-incidente.
+        APPEND VALUE #( %tky = incidente-%tky
+                        %msg = new zcl_incidentes_messages_vt( textid = zcl_incidentes_messages_vt=>description_unkown
+                                                            description = incidente-Description
+                                                            severity = if_abap_behv_message=>severity-error  )
+                                                            %element-description = if_abap_behv=>mk-on ) TO reported-incidente.
+
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD validatePriority.
+
+
+      READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+      ENTITY Incidente
+        FIELDS ( Priority ) WITH CORRESPONDING #( keys )
+      RESULT DATA(incidentes).
+
+    LOOP AT Incidentes INTO DATA(Incidente).
+
+      IF Incidente-Priority IS INITIAL.
+
+        APPEND VALUE #( %tky = incidente-%tky ) TO failed-incidente.
+        APPEND VALUE #( %tky = incidente-%tky
+                        %msg = new zcl_incidentes_messages_vt( textid = zcl_incidentes_messages_vt=>Priority_unkown
+                                                            Priority = incidente-Priority
+                                                            severity = if_abap_behv_message=>severity-error  )
+                                                            %element-Priority = if_abap_behv=>mk-on ) TO reported-incidente.
+
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD validateStatus.
+
+      READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+      ENTITY Incidente
+        FIELDS ( Status ) WITH CORRESPONDING #( keys )
+      RESULT DATA(incidentes).
+
+    LOOP AT Incidentes INTO DATA(Incidente).
+
+      IF Incidente-Status IS INITIAL.
+
+        APPEND VALUE #( %tky = incidente-%tky ) TO failed-incidente.
+        APPEND VALUE #( %tky = incidente-%tky
+                        %msg = new zcl_incidentes_messages_vt( textid = zcl_incidentes_messages_vt=>status_unkown
+                                                            status = incidente-Status
+                                                            severity = if_abap_behv_message=>severity-error  )
+                                                            %element-Status = if_abap_behv=>mk-on ) TO reported-incidente.
+
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
 ENDCLASS.
