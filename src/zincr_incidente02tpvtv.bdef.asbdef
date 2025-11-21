@@ -29,6 +29,10 @@ authorization master( global )
 //Agregar el * en los campos obligatorios
    field ( mandatory )  Title, Description, Status, Priority;
 
+  action ( features : instance, authorization : update ) changestatus
+  parameter z_ae_changestatus_VTV result [1] $self;
+
+
   field ( numbering : managed )
    IncUUID;
 

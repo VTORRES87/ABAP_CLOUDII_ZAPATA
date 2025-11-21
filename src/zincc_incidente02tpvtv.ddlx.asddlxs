@@ -115,13 +115,21 @@ annotate view ZINCC_Incidente02TPVTV with
     position: 70 , 
     importance: #HIGH, 
     label: 'CreationDate'
-  } ]
+  },
+  { type: #FOR_ACTION,
+    dataAction: 'changestatus',
+    label: 'Change Status',
+    position: 70   } ]
   
   
   @UI.identification: [ {
     position: 70 , 
     label: 'CreationDate'
-  } ]
+  },
+  { type: #FOR_ACTION,
+    dataAction: 'changestatus',
+    label: 'Change Status',
+    position: 70   }  ]
   
    CreationDate;
   

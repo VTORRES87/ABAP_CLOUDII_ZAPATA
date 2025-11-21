@@ -18,6 +18,11 @@ CLASS LHC_INCIDENTE DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
 
           METHODS validateStatus FOR VALIDATE ON SAVE
             IMPORTING keys FOR Incidente~validateStatus.
+          METHODS get_instance_features FOR INSTANCE FEATURES
+            IMPORTING keys REQUEST requested_features FOR Incidente RESULT result.
+
+          METHODS changestatus FOR MODIFY
+            IMPORTING keys FOR ACTION Incidente~changestatus RESULT result.
 ENDCLASS.
 
 CLASS LHC_INCIDENTE IMPLEMENTATION.
@@ -135,6 +140,32 @@ CLASS LHC_INCIDENTE IMPLEMENTATION.
 
       ENDIF.
     ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD get_instance_features.
+  ENDMETHOD.
+
+  METHOD changestatus.
+
+  DATA incidente_for_status TYPE TABLE FOR UPDATE ZINCR_Incidente02TPVTV.
+
+  READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE ENTITY Incidente
+  FIELDS ( Status ) WITH CORRESPONDING #( keys )
+  RESULT DATA(incidentes).
+
+  LOOP AT incidentes ASSIGNING FIELD-SYMBOL(<fs_incidente>).
+
+  DATA(statusn) = keys[ KEY id %tky = <fs_incidente>-%tky ]-%param-change_status.
+    DATA(obs) = keys[ KEY id %tky = <fs_incidente>-%tky ]-%param-Observaciones.
+
+  APPEND VALUE #( %tky = <fs_incidente>-%tky status = statusn ) TO incidente_for_status.
+
+  ENDLOOP.
+
+  MODIFY ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE ENTITY Incidente
+  UPDATE FIELDS ( Status ) WITH incidente_for_status.
+
 
   ENDMETHOD.
 
