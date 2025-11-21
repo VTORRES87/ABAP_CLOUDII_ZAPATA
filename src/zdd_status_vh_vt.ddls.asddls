@@ -3,13 +3,15 @@
 @EndUserText.label: 'Ayuda de busqueda status'
 @Metadata.ignorePropagatedAnnotations: true
 @ObjectModel.usageType:{
-    serviceQuality: #X,
+    serviceQuality: #A,
     sizeCategory: #S,
     dataClass: #MIXED
 }
 @ObjectModel.supportedCapabilities: [ #VALUE_HELP_PROVIDER ]
 @ObjectModel.dataCategory: #VALUE_HELP
 @ObjectModel.representativeKey: 'status'
+@VDM.viewType: #COMPOSITE
+@Search.searchable: true
 
 
 define view entity ZDD_status_vh_vt as select from zdt_status_vhv
@@ -17,4 +19,3 @@ define view entity ZDD_status_vh_vt as select from zdt_status_vhv
      key status,
          description
 }
-

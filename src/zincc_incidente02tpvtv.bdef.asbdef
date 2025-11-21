@@ -16,6 +16,7 @@ use etag
   use action Discard;
   use action Resume;
   use action Prepare;
+  use action changestatus;
 
   use association _Historial { create; with draft; }
 
@@ -25,8 +26,8 @@ define behavior for ZINCC_HistorialTPVTV alias Historial
 extensible
 use etag
 {
-  use update;
-  use delete;
+  //use update;
+  //use delete;
 
   use association _Incidente { with draft; }
 

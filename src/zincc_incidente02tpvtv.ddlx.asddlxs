@@ -111,7 +111,7 @@ annotate view ZINCC_Incidente02TPVTV with
     
   Priority;
   
-  @UI.lineItem: [ {
+  @UI: {lineItem: [ {
     position: 70 , 
     importance: #HIGH, 
     label: 'CreationDate'
@@ -119,10 +119,8 @@ annotate view ZINCC_Incidente02TPVTV with
   { type: #FOR_ACTION,
     dataAction: 'changestatus',
     label: 'Change Status',
-    position: 70   } ]
-  
-  
-  @UI.identification: [ {
+    position: 70   } ],  
+  identification: [ {
     position: 70 , 
     label: 'CreationDate'
   },
@@ -130,7 +128,7 @@ annotate view ZINCC_Incidente02TPVTV with
     dataAction: 'changestatus',
     label: 'Change Status',
     position: 70   }  ]
-  
+  }
    CreationDate;
   
   @UI.lineItem: [ {
