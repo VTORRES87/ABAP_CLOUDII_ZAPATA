@@ -1,4 +1,16 @@
 CLASS LHC_INCIDENTE DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
+
+  PUBLIC SECTION.
+
+    CONSTANTS: BEGIN OF mc_status,
+                 open        TYPE zde_status2_lgl VALUE 'OP',
+                 in_progress TYPE zde_status2_lgl VALUE 'IP',
+                 pending     TYPE zde_status2_lgl VALUE 'PE',
+                 completed   TYPE zde_status2_lgl VALUE 'CO',
+                 closed      TYPE zde_status2_lgl VALUE 'CL',
+                 canceled    TYPE zde_status2_lgl VALUE 'CN',
+               END OF mc_status.
+
   PRIVATE SECTION.
     METHODS:
       GET_GLOBAL_AUTHORIZATIONS FOR GLOBAL AUTHORIZATION
@@ -23,6 +35,20 @@ CLASS LHC_INCIDENTE DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
 
           METHODS changestatus FOR MODIFY
             IMPORTING keys FOR ACTION Incidente~changestatus RESULT result.
+          METHODS setHistory FOR MODIFY
+            IMPORTING keys FOR ACTION Incidente~setHistory.
+
+          METHODS setdefaulValues FOR DETERMINE ON MODIFY
+            IMPORTING keys FOR Incidente~setdefaulValues.
+
+          METHODS setdefaulHistory FOR DETERMINE ON SAVE
+            IMPORTING keys FOR Incidente~setdefaulHistory
+            .
+          METHODS get_history
+            EXPORTING
+              value(ev_incuuid) TYPE any
+            RETURNING
+              value(rv_index)   TYPE zde_his_id_vtv.
 ENDCLASS.
 
 CLASS LHC_INCIDENTE IMPLEMENTATION.
@@ -144,6 +170,45 @@ CLASS LHC_INCIDENTE IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_instance_features.
+
+    DATA lv_history_index TYPE zde_his_id_vtv.
+
+
+    READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+       ENTITY Incidente
+         FIELDS ( Status )
+         WITH CORRESPONDING #( keys )
+       RESULT DATA(incidentes)
+       FAILED failed.
+
+** Disable changeStatus for Incidents Creation
+    DATA(lv_create_action) = lines( incidentes ).
+    IF lv_create_action EQ 1.
+      lv_history_index = get_history( IMPORTING ev_incuuid = incidentes[ 1 ]-IncUUID ).
+    ELSE.
+      lv_history_index = 1.
+    ENDIF.
+
+
+
+    result = VALUE #( FOR incidente IN incidentes
+                          ( %tky                   = incidente-%tky
+                            %action-ChangeStatus   = COND #( WHEN incidente-Status = mc_status-completed OR
+                                                                  incidente-Status = mc_status-closed    OR
+                                                                  incidente-Status = mc_status-canceled  OR
+                                                                  lv_history_index = 0
+                                                             THEN if_abap_behv=>fc-o-disabled
+                                                             ELSE if_abap_behv=>fc-o-enabled )
+
+*                            %assoc-_Hist      = COND #( WHEN incidente-Status = mc_status-completed OR
+*                                                                 incidente-Status = mc_status-closed    OR
+*                                                                 incidente-Status = mc_status-canceled  OR
+*                                                                 lv_history_index = 0
+*                                                            THEN if_abap_behv=>fc-o-disabled
+*                                                            ELSE if_abap_behv=>fc-o-enabled )
+                          ) ).
+
+
   ENDMETHOD.
 
   METHOD changestatus.
@@ -167,6 +232,122 @@ CLASS LHC_INCIDENTE IMPLEMENTATION.
   UPDATE FIELDS ( Status ) WITH incidente_for_status.
 
 
+  ENDMETHOD.
+
+  METHOD setHistory.
+
+*   DATA: lt_updated_root_entity  TYPE TABLE FOR UPDATE ZINCI_Incidente02TPVTV,
+*          lt_association_entity  TYPE TABLE FOR CREATE ZINCI_Incidente02TPVTV\_Hist,
+*          lv_exception           TYPE string,
+*          ls_incident_history    TYPE ZDT_INCT_H_VT,
+*          lv_max_his_id          TYPE zde_his_id_vtv.
+*
+*
+*    READ ENTITIES OF ZINCR_Incidente02TPVTV  IN LOCAL MODE
+*         ENTITY Incidente
+*         ALL FIELDS WITH CORRESPONDING #( keys )
+*         RESULT DATA(incidentes).
+*
+*    LOOP AT incidentes ASSIGNING FIELD-SYMBOL(<incident>).
+*      lv_max_his_id = get_history( IMPORTING ev_incuuid = <incident>-IncUUID ).
+*
+*      IF lv_max_his_id IS INITIAL.
+*        ls_incident_history-his_id = 1.
+*      ELSE.
+*        ls_incident_history-his_id = lv_max_his_id + 1.
+*      ENDIF.
+*
+*      TRY.
+*          ls_incident_history-inc_uuid = cl_system_uuid=>create_uuid_x16_static( ).
+*        CATCH cx_uuid_error INTO DATA(lo_error).
+*          lv_exception = lo_error->get_text(  ).
+*      ENDTRY.
+*
+*      IF ls_incident_history-his_id IS NOT INITIAL.
+*        APPEND VALUE #( %tky = <incident>-%tky
+*                        %target = VALUE #( (  HisUUID = ls_incident_history-inc_uuid
+*                                              IncUUID = <incident>-IncUUID
+*                                              HisID = ls_incident_history-his_id
+*                                              NewStatus = <incident>-Status
+*                                              Text = | Creación - { <incident>-Description }| ) )
+*                                               ) TO lt_association_entity.
+*      ENDIF.
+*    ENDLOOP.
+*    UNASSIGN <incident>.
+*
+*    FREE incidentes.
+*
+*    MODIFY ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+*     ENTITY Incidente
+*     CREATE BY \_Hist FIELDS ( HisUUID
+*                                  IncUUID
+*                                  HisID
+*                                  PreviousStatus
+*                                  NewStatus
+*                                  Text )
+*        AUTO FILL CID
+*        WITH lt_association_entity.
+
+  ENDMETHOD.
+
+  METHOD setdefaulValues.
+
+
+* Read root entity entries
+    READ ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+     ENTITY Incidente
+     FIELDS ( CreationDate
+              Status ) WITH CORRESPONDING #( keys )
+     RESULT DATA(incidentes).
+
+** This important for logic
+    DELETE incidentes WHERE CreationDate IS NOT INITIAL.
+
+    CHECK incidentes IS NOT INITIAL.
+
+** Get Last index from Incidents
+    SELECT FROM zdt_inct_alg
+      FIELDS MAX( incident_id ) AS max_inct_id
+      WHERE incident_id IS NOT NULL
+      INTO @DATA(lv_max_inct_id).
+
+    IF lv_max_inct_id IS INITIAL.
+      lv_max_inct_id = 1.
+    ELSE.
+      lv_max_inct_id += 1.
+    ENDIF.
+
+** Modify status in Root Entity
+    MODIFY ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+      ENTITY Incidente
+      UPDATE
+      FIELDS ( IncidentID
+               CreationDate
+               Status )
+      WITH VALUE #(  FOR incidente IN incidentes ( %tky = incidente-%tky
+                                                 IncidentID = lv_max_inct_id
+                                                 CreationDate = cl_abap_context_info=>get_system_date( )
+                                                 Status       = mc_status-open )  ).
+
+  ENDMETHOD.
+
+  METHOD setdefaulHistory.
+
+      MODIFY ENTITIES OF ZINCR_Incidente02TPVTV IN LOCAL MODE
+    ENTITY Incidente
+    EXECUTE setHistory
+       FROM CORRESPONDING #( keys ).
+
+  ENDMETHOD.
+
+
+  METHOD get_history.
+** Fill history data
+    SELECT FROM ZDT_INCT_H_VT
+      FIELDS MAX( his_id ) AS max_his_id
+      WHERE inc_uuid EQ @ev_incuuid AND
+            his_uuid IS NOT NULL
+      INTO @rv_index.
   ENDMETHOD.
 
 ENDCLASS.

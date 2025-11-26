@@ -18,11 +18,11 @@ use etag
   use action Prepare;
   use action changestatus;
 
-  use association _Historial { create; with draft; }
+  use association _Hist { create; with draft; }
 
 }
 
-define behavior for ZINCC_HistorialTPVTV alias Historial
+define behavior for ZINCC_HistorialTPVTV alias Hist
 extensible
 use etag
 {

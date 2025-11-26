@@ -7,34 +7,34 @@
   elementSuffix: 'ZAA', 
   allowNewDatasources: false, 
   allowNewCompositions: true, 
-  dataSources: [ '_Extension' ], 
+ dataSources: [ '_Extension' ], 
   quota: {
     maximumFields: 100 , 
     maximumBytes: 10000 
   }
 }
 define root view entity ZINCR_Incidente02TPVTV
-  as select from ZDT_INCT_VT as Incidente
-  association [1] to ZINCE_IncidenteVTV as _Extension on $projection.IncUUID = _Extension.IncUUID
-  composition [0..*] of ZINCR_HistorialTPVTV as _Historial
+  as select from zdt_inct_vt as Incidente
+ association [1] to ZINCE_IncidenteVTV as _Extension on $projection.IncUUID = _Extension.IncUUID
+  composition [0..*] of ZINCR_HistorialTPVTV as _Hist
 {
-  key INC_UUID as IncUUID,
-  INCIDENT_ID as IncidentID,
-  TITLE as Title,
-  DESCRIPTION as Description,
-  STATUS as Status,
-  PRIORITY as Priority,
-  CREATION_DATE as CreationDate,
-  CHANGED_DATE as ChangedDate,
+  key inc_uuid as IncUUID,
+  incident_id as IncidentID,
+  title as Title,
+  description as Description,
+  status as Status,
+  priority as Priority,
+  creation_date as CreationDate,
+  changed_date as ChangedDate,
   @Semantics.user.createdBy: true
-  LOCAL_CREATED_BY as LocalCreatedBy,
+  local_created_by as LocalCreatedBy,
   @Semantics.systemDateTime.createdAt: true
-  LOCAL_CREATED_AT as LocalCreatedAt,
-  LOCAL_LAST_CHANGED_BY as LocalLastChangedBy,
+  local_created_at as LocalCreatedAt,
+  local_last_changed_by as LocalLastChangedBy,
   @Semantics.systemDateTime.localInstanceLastChangedAt: true
-  LOCAL_LAST_CHANGED_AT as LocalLastChangedAt,
+  local_last_changed_at as LocalLastChangedAt,
   @Semantics.systemDateTime.lastChangedAt: true
-  LAST_CHANGED_AT as LastChangedAt,
-  _Historial,
+  last_changed_at as LastChangedAt,
+  _Hist,
   _Extension
 }

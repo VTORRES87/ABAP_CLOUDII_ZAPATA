@@ -15,7 +15,7 @@
 @ObjectModel.semanticKey: [ 'IncidentID' ]
 @Search.searchable: true
 define root view entity ZINCC_Incidente02TPVTV
-  provider contract TRANSACTIONAL_QUERY
+  provider contract transactional_query
   as projection on ZINCR_Incidente02TPVTV as Incidente
 {
   key IncUUID,
@@ -33,5 +33,5 @@ define root view entity ZINCC_Incidente02TPVTV
   LocalLastChangedBy,
   LocalLastChangedAt,
   LastChangedAt,
-  _Historial : redirected to composition child ZINCC_HistorialTPVTV
+  _Hist : redirected to composition child ZINCC_HistorialTPVTV
 }

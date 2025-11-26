@@ -5,14 +5,14 @@
   elementSuffix: 'ZAB', 
   allowNewDatasources: false, 
   allowNewCompositions: true, 
-  dataSources: [ 'Historial' ], 
+  dataSources: [ 'Hist' ], 
   quota: {
     maximumFields: 100 , 
     maximumBytes: 10000 
   }
 }
 define view entity ZINCI_HistorialTPVTV
-  as projection on ZINCR_HistorialTPVTV as Historial
+  as projection on ZINCR_HistorialTPVTV as Hist
 {
   key HisUUID,
   IncUUID,

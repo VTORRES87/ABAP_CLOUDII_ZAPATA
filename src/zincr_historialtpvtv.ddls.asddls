@@ -14,7 +14,7 @@
   }
 }
 define view entity ZINCR_HistorialTPVTV
-  as select from ZDT_INCT_H_VT as Historial
+  as select from ZDT_INCT_H_VT as Hist
   association to parent ZINCR_Incidente02TPVTV as _Incidente on $projection.IncUUID = _Incidente.IncUUID
   association [1] to ZINCE_HistorialVTV as _Extension on $projection.HisUUID = _Extension.HisUUID
 {

@@ -39,7 +39,7 @@ annotate view ZINCC_Incidente02TPVTV with
     type: #LINEITEM_REFERENCE, 
     label: 'Historial', 
     position: 30 , 
-    targetElement: '_Historial'
+    targetElement: '_Hist'
   } ]
   @UI.hidden: true
   IncUUID;

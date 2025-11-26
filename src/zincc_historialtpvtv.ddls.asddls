@@ -6,7 +6,7 @@
   elementSuffix: 'ZAB', 
   allowNewDatasources: false, 
   allowNewCompositions: true, 
-  dataSources: [ 'Historial' ], 
+  dataSources: [ 'Hist' ], 
   quota: {
     maximumFields: 100 , 
     maximumBytes: 10000 
@@ -15,7 +15,7 @@
 @ObjectModel.semanticKey: [ 'HisID' ]
 @Search.searchable: true
 define view entity ZINCC_HistorialTPVTV
-  as projection on ZINCR_HistorialTPVTV as Historial
+  as projection on ZINCR_HistorialTPVTV as Hist
 {
   key HisUUID,
   IncUUID,

@@ -12,7 +12,7 @@
   }
 }
 define root view entity ZINCI_Incidente02TPVTV
-  provider contract TRANSACTIONAL_INTERFACE
+  provider contract transactional_interface
   as projection on ZINCR_Incidente02TPVTV as Incidente
 {
   key IncUUID,
@@ -28,5 +28,5 @@ define root view entity ZINCI_Incidente02TPVTV
   LocalLastChangedBy,
   LocalLastChangedAt,
   LastChangedAt,
-  _Historial : redirected to composition child ZINCI_HistorialTPVTV
+  _Hist : redirected to composition child ZINCI_HistorialTPVTV
 }

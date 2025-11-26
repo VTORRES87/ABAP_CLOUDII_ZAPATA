@@ -6,14 +6,14 @@
   elementSuffix: 'ZAB', 
   allowNewDatasources: false, 
   allowNewCompositions: false, 
-  dataSources: [ 'Historial' ], 
+  dataSources: [ 'Hist' ], 
   quota: {
     maximumFields: 100 , 
     maximumBytes: 10000 
   }
 }
 define view entity ZINCR_Historial_DVTV
-  as select from ZINCHISTOR00DVTV as Historial
+  as select from ZINCHISTOR00DVTV as Hist
 {
   key HisUUID as HisUUID,
   IncUUID as IncUUID,

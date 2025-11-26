@@ -14,6 +14,10 @@ define view entity Zdd_priority_vh_vt as select from zdt_priority_vhv
 {
 
  key priority,
+ 
+   @Search.defaultSearchElement: true
+   @Search.fuzzinessThreshold: 0.8
+     @Semantics.text:true
   description
      
 }

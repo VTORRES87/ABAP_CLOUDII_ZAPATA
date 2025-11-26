@@ -6,14 +6,14 @@
   elementSuffix: 'ZAB', 
   allowNewDatasources: false, 
   allowNewCompositions: false, 
-  dataSources: [ 'Historial' ], 
+  dataSources: [ 'Hist' ], 
   quota: {
     maximumFields: 100 , 
     maximumBytes: 10000 
   }
 }
 define view entity ZINCE_HistorialVTV
-  as select from ZDT_INCT_H_VT as Historial
+  as select from zdt_inct_h_vt as Hist
 {
-  key HIS_UUID as HisUUID
+  key his_uuid as HisUUID
 }

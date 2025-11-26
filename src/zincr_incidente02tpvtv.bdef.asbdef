@@ -26,11 +26,19 @@ authorization master( global )
    LocalLastChangedAt,
    LastChangedAt;
 
+   association _Hist {create ( features : instance); with draft;}
+
 //Agregar el * en los campos obligatorios
    field ( mandatory )  Title, Description, Status, Priority;
 
   action ( features : instance, authorization : update ) changestatus
   parameter z_ae_changestatus_VTV result [1] $self;
+
+
+  internal action setHistory;
+
+  determination setdefaulHistory on save { create;}
+  determination setdefaulValues  on modify{ create;}
 
 
   field ( numbering : managed )
@@ -71,13 +79,13 @@ authorization master( global )
     LastChangedAt = LAST_CHANGED_AT;
   }
 
-  association _Historial { create; with draft; }
+//  association _Extension  { with draft; }
 
   determination CalculateIncidentID on save { create; }
 
 }
 
-define behavior for ZINCR_HistorialTPVTV alias Historial
+define behavior for ZINCR_HistorialTPVTV alias Hist
 implementation in class ZINCBP_R_HistorialTPVTV unique
 persistent table ZDT_INCT_H_VT
 extensible
@@ -99,6 +107,8 @@ authorization dependent by _Incidente
   update;
   delete;
 
+  association _Incidente { with draft; }
+
   mapping for ZDT_INCT_H_VT corresponding extensible
   {
     HisUUID = HIS_UUID;
@@ -114,8 +124,7 @@ authorization dependent by _Incidente
     LastChangeDat = LAST_CHANGE_DAT;
   }
 
-  association _Incidente { with draft; }
 
-  determination CalculateHisID on save { create; }
+  determination CalculateHistID on save { create; }
 
 }
