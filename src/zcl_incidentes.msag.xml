@@ -32,6 +32,12 @@
      <MSGNR>004</MSGNR>
      <TEXT>Empty status field</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCL_INCIDENTES</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>Estatus  &amp;1 No es valido.  Pendiente (PE) No cambia CO o CL Status</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

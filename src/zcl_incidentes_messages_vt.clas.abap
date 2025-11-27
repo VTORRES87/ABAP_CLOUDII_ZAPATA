@@ -13,6 +13,7 @@ CLASS zcl_incidentes_messages_vt DEFINITION
     CONSTANTS:
       gc_msgid TYPE symsgid VALUE 'ZCL_INCIDENTES',
 
+
         BEGIN OF title_unkown,
         msgid TYPE symsgid VALUE 'ZCL_INCIDENTES',
         msgno TYPE symsgno VALUE '001',
@@ -47,8 +48,16 @@ CLASS zcl_incidentes_messages_vt DEFINITION
         attr2 TYPE scx_attrname VALUE '',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF status_unkown.
+      END OF status_unkown,
 
+      BEGIN OF status_invalid,
+        msgid TYPE symsgid VALUE 'ZCL_INCIDENTES',
+        msgno TYPE symsgno VALUE '005',
+        attr1 TYPE scx_attrname VALUE 'MV_STATUS',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF status_invalid.
 
       METHODS constructor
       IMPORTING

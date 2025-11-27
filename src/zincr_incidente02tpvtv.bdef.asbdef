@@ -39,13 +39,13 @@ authorization master( global )
 
   determination setdefaulHistory on save { create;}
   determination setdefaulValues  on modify{ create;}
-
+//  determination CalculateIncidentID on save { create; }
 
   field ( numbering : managed )
    IncUUID;
 
 
-  create;
+  create ( authorization : global );
   update;
   delete;
 
@@ -79,9 +79,9 @@ authorization master( global )
     LastChangedAt = LAST_CHANGED_AT;
   }
 
-//  association _Extension  { with draft; }
+// association _Extension  { with draft; }
 
-  determination CalculateIncidentID on save { create; }
+
 
 }
 
@@ -94,6 +94,9 @@ etag master LocalLastChangedAt
 lock dependent by _Incidente
 authorization dependent by _Incidente
 {
+
+
+
   field ( readonly )
    HisUUID,
    IncUUID,
@@ -105,7 +108,7 @@ authorization dependent by _Incidente
 
 
   update;
-  delete;
+
 
   association _Incidente { with draft; }
 
