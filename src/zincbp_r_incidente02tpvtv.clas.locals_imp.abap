@@ -44,6 +44,8 @@ CLASS LHC_INCIDENTE DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
     METHODS setdefaulHistory FOR DETERMINE ON SAVE
       IMPORTING keys FOR Incidente~setdefaulHistory
       .
+    METHODS validateDate FOR VALIDATE ON SAVE
+      IMPORTING keys FOR Incidente~validateDate.
     METHODS get_history
       IMPORTING
         VALUE(iv_incuuid) TYPE sysuuid_x16
@@ -448,6 +450,11 @@ CLASS LHC_INCIDENTE IMPLEMENTATION.
       WHERE inc_uuid EQ @iv_incuuid AND
             his_uuid IS NOT NULL
       INTO @rv_index.
+  ENDMETHOD.
+
+  METHOD validateDate.
+
+
   ENDMETHOD.
 
 ENDCLASS.

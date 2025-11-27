@@ -85,6 +85,7 @@ annotate view ZINCC_HistorialTPVTV with
   @UI.identification: [ {
     position: 70 
   } ]
+   @UI.hidden: true
   LocalCreatedBy;
   
   @UI.lineItem: [ {
@@ -94,6 +95,7 @@ annotate view ZINCC_HistorialTPVTV with
   @UI.identification: [ {
     position: 80 
   } ]
+   @UI.hidden: true
   LocalCreatedAt;
   
   @UI.lineItem: [ {
@@ -103,6 +105,7 @@ annotate view ZINCC_HistorialTPVTV with
   @UI.identification: [ {
     position: 90 
   } ]
+   @UI.hidden: true
   LocalLastChangedBy;
   
   @UI.hidden: true
@@ -115,5 +118,6 @@ annotate view ZINCC_HistorialTPVTV with
   @UI.identification: [ {
     position: 110 
   } ]
+   @UI.hidden: true
   LastChangeDat;
 }

@@ -21,6 +21,7 @@ authorization master( global )
   field ( readonly )
    IncUUID,
    IncidentID,
+   CreationDate,
    LocalCreatedBy,
    LocalCreatedAt,
    LocalLastChangedAt,
@@ -61,6 +62,7 @@ authorization master( global )
   validation validateDescription on save { create; update; field Description;}
   validation validateStatus on save { create; update; field Status;}
   validation validatePriority on save { create; update; field Priority;}
+  validation validateDate on save { create; update; field CreationDate;}
 
   mapping for ZDT_INCT_VT corresponding extensible
   {
