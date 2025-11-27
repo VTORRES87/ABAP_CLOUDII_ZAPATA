@@ -140,7 +140,7 @@ annotate view ZINCC_Incidente02TPVTV with
     position: 80 , 
     label: 'ChangedDate'
   } ]
-  @UI.hidden: true
+
   ChangedDate;
   
   @UI.hidden: true
