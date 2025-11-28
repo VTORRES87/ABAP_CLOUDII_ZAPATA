@@ -18,6 +18,8 @@ etag master LocalLastChangedAt
 lock master total etag LastChangedAt
 authorization master( global )
 {
+
+//Campos de solo lectura
   field ( readonly )
    IncUUID,
    IncidentID,
@@ -27,20 +29,25 @@ authorization master( global )
    LocalLastChangedAt,
    LastChangedAt;
 
+//Asociación a historial
    association _Hist {create ( features : instance); with draft;}
 
 //Agregar el * en los campos obligatorios
    field ( mandatory )  Title, Description, Status, Priority;
 
+//Acción pública: ChangeStatus
   action ( features : instance, authorization : update ) changestatus
   parameter z_ae_changestatus_VTV result [1] $self;
 
-
+//Acción interna
   internal action setHistory;
+
+
+//setdefaultHistory: Inicializa la creación del registro de historial por cada nuevo incidente.
+//setdefaultValues: Configura valores iniciales al crear un nuevo incidente.
 
   determination setdefaulHistory on save { create;}
   determination setdefaulValues  on modify{ create;}
-//  determination CalculateIncidentID on save { create; }
 
   field ( numbering : managed )
    IncUUID;
